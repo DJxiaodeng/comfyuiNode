@@ -1,0 +1,340 @@
+{
+  "last_node_id": 10,
+  "last_link_id": 12,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "LoadImage",
+      "pos": [200, 200],
+      "size": [315, 270],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [1],
+          "slot_index": 0
+        },
+        {
+          "name": "MASK",
+          "type": "MASK",
+          "links": null,
+          "slot_index": 1
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoadImage"
+      },
+      "widgets_values": ["example.png", "image"]
+    },
+    {
+      "id": 2,
+      "type": "CLIPTextEncode",
+      "pos": [200, 500],
+      "size": [370, 130],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": null,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": ["a person wearing clothes"]
+    },
+    {
+      "id": 3,
+      "type": "CLIPTextEncode",
+      "pos": [200, 650],
+      "size": [370, 130],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "CONDITIONING",
+          "type": "CONDITIONING",
+          "links": null,
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPTextEncode"
+      },
+      "widgets_values": [""]
+    },
+    {
+      "id": 4,
+      "type": "ClothingStyleWorkflow",
+      "pos": [600, 200],
+      "size": [400, 500],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "image",
+          "type": "IMAGE",
+          "link": 1
+        },
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "link": 2,
+          "widget": {
+            "name": "prompt"
+          }
+        },
+        {
+          "name": "negative_prompt",
+          "type": "STRING",
+          "link": 3,
+          "widget": {
+            "name": "negative_prompt"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "adapted_image",
+          "type": "IMAGE",
+          "links": [4],
+          "slot_index": 0
+        },
+        {
+          "name": "adapted_prompt",
+          "type": "STRING",
+          "links": [5],
+          "slot_index": 1
+        },
+        {
+          "name": "adapted_negative_prompt",
+          "type": "STRING",
+          "links": [6],
+          "slot_index": 2
+        },
+        {
+          "name": "seed",
+          "type": "INT",
+          "links": null,
+          "slot_index": 3
+        },
+        {
+          "name": "style_info",
+          "type": "STYLE_INFO",
+          "links": [7],
+          "slot_index": 4
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ClothingStyleWorkflow"
+      },
+      "widgets_values": [
+        "中国",
+        0.75,
+        "是",
+        "完整工作流",
+        "a person wearing clothes",
+        "",
+        0,
+        20,
+        7,
+        "euler_ancestral",
+        512,
+        512,
+        1
+      ]
+    },
+    {
+      "id": 5,
+      "type": "PreviewImage",
+      "pos": [1050, 200],
+      "size": [400, 400],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 4
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PreviewImage"
+      }
+    },
+    {
+      "id": 6,
+      "type": "StyleInfoDisplay",
+      "pos": [1050, 650],
+      "size": [400, 200],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "style_info",
+          "type": "STYLE_INFO",
+          "link": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "style_text",
+          "type": "STRING",
+          "links": [8],
+          "slot_index": 0
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "StyleInfoDisplay"
+      },
+      "widgets_values": ["完整信息"]
+    },
+    {
+      "id": 7,
+      "type": "Note",
+      "pos": [1500, 200],
+      "size": [400, 300],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": 8
+        }
+      ],
+      "properties": {},
+      "widgets_values": [""]
+    },
+    {
+      "id": 8,
+      "type": "RegionalStyleSelector",
+      "pos": [600, 750],
+      "size": [400, 150],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "style_prompt",
+          "type": "STRING",
+          "links": [9],
+          "slot_index": 0
+        },
+        {
+          "name": "negative_prompt",
+          "type": "STRING",
+          "links": [10],
+          "slot_index": 1
+        },
+        {
+          "name": "style_info",
+          "type": "STYLE_INFO",
+          "links": [11],
+          "slot_index": 2
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RegionalStyleSelector"
+      },
+      "widgets_values": ["日本", "全部"]
+    },
+    {
+      "id": 9,
+      "type": "PrimitiveNode",
+      "pos": [200, 800],
+      "size": [210, 80],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [2],
+          "slot_index": 0
+        }
+      ],
+      "properties": {},
+      "widgets_values": ["a person wearing clothes"]
+    },
+    {
+      "id": 10,
+      "type": "PrimitiveNode",
+      "pos": [200, 900],
+      "size": [210, 80],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [3],
+          "slot_index": 0
+        }
+      ],
+      "properties": {},
+      "widgets_values": [""]
+    }
+  ],
+  "links": [
+    [1, 1, 0, 4, 0, "IMAGE"],
+    [2, 9, 0, 4, 1, "STRING"],
+    [3, 10, 0, 4, 2, "STRING"],
+    [4, 4, 0, 5, 0, "IMAGE"],
+    [5, 4, 1, 2, 0, "STRING"],
+    [6, 4, 2, 3, 0, "STRING"],
+    [7, 4, 4, 6, 0, "STYLE_INFO"],
+    [8, 6, 0, 7, 0, "STRING"],
+    [9, 8, 0, 2, 0, "STRING"],
+    [10, 8, 1, 3, 0, "STRING"],
+    [11, 8, 2, 6, 0, "STYLE_INFO"]
+  ],
+  "groups": [
+    {
+      "title": "输入区域",
+      "bounding": [180, 150, 410, 850],
+      "color": "#3f789e"
+    },
+    {
+      "title": "处理区域",
+      "bounding": [580, 150, 440, 770],
+      "color": "#b58b2a"
+    },
+    {
+      "title": "输出区域",
+      "bounding": [1030, 150, 890, 720],
+      "color": "#2a7d4f"
+    }
+  ],
+  "config": {},
+  "extra": {},
+  "version": 0.4
+}
